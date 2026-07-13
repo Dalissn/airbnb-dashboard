@@ -12,20 +12,12 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── Data source URL ───────────────────────────────────────────────────────────
-# Public Inside Airbnb listing file for Austin, TX
-# Update this URL if a newer snapshot is available at insideairbnb.com/get-the-data
-DATA_URL = (
-    "http://data.insideairbnb.com/united-states/tx/austin/"
-    "https://data.insideairbnb.com/united-states/tx/austin/2026-06-22/data/listings.csv.gz"
-)
-
 # ── Data loading and cleaning ─────────────────────────────────────────────────
 
 @st.cache_data
-def load_data(url: str) -> pd.DataFrame:
-    # Download and read the compressed CSV directly from Inside Airbnb
-    df = pd.read_csv(url, compression="gzip")
+def load_data() -> pd.DataFrame:
+    # Read the compressed CSV from the repo root directory
+    df = pd.read_csv("listings.csv.gz", compression="gzip")
     ## Strip dollar signs and commas from PRICE
     df["price"] = df["price"].replace(r"[\$,]", "", regex=True).astype(float)
     ## Drop rows missing any key field used in the dashboard
@@ -37,9 +29,7 @@ def load_data(url: str) -> pd.DataFrame:
     df = df[df["price"] < df["price"].quantile(0.95)]
     return df
 
-# Show a spinner while the data downloads on first load
-with st.spinner("Loading Austin Airbnb data..."):
-    df = load_data(DATA_URL)
+df = load_data()
 
 # ── Sidebar filters ───────────────────────────────────────────────────────────
 st.sidebar.title("Filter Listings")
