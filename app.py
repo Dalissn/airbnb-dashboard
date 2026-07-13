@@ -17,7 +17,7 @@ st.set_page_config(
 # Update this URL if a newer snapshot is available at insideairbnb.com/get-the-data
 DATA_URL = (
     "http://data.insideairbnb.com/united-states/tx/austin/"
-    "2024-12-12/data/listings.csv.gz"
+    "https://data.insideairbnb.com/united-states/tx/austin/2026-06-22/data/listings.csv.gz"
 )
 
 # ── Data loading and cleaning ─────────────────────────────────────────────────
